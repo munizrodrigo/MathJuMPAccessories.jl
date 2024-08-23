@@ -1,7 +1,7 @@
 module MathJuMPAccessories
 
 import Base: \
-import OrderedCollections: OrderedSet
+import OrderedCollections: OrderedSet, OrderedDict
 import JuMP
 
 export ⅈ, ⅉ, ∑, ∥, ∠, ∗, ℜ, ℑ, ∧, ∨, ⋅, @∀
