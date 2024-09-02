@@ -92,10 +92,14 @@ function JuMP.add_variable(
     else
         d = JuMP.@expression(model, -d₀^2 - d₁^2)
 
-        if haskey(model.ext, :objective)
-            push!(model.ext[:objective], d)
+        if !haskey(model.ext, :objective)
+            model.ext[:objective] = Dict{Symbol,Vector}()
+        end
+
+        if haskey(model.ext[:objective], :d)
+            push!(model.ext[:objective][:d], d)
         else
-            model.ext[:objective] = Vector([d])
+            model.ext[:objective][:d] = Vector{Any}([d])
         end
     end
 
@@ -185,11 +189,16 @@ function JuMP.add_variable(
 
     # JuMP.@constraint(model, variable * (1 - variable) == 0, base_name="Π($(name) * (1 - $(name)))")
 
-    π  = JuMP.@expression(model, variable - variable^2)
-    if haskey(model.ext, :objective)
-        push!(model.ext[:objective], π)
+    d  = JuMP.@expression(model, variable - variable^2)
+
+    if !haskey(model.ext, :objective)
+        model.ext[:objective] = Dict{Symbol,Vector}()
+    end
+
+    if haskey(model.ext[:objective], :d)
+        push!(model.ext[:objective][:d], d)
     else
-        model.ext[:objective] = Vector([π])
+        model.ext[:objective][:d] = Vector{Any}([d])
     end
 
     return variable
@@ -331,12 +340,16 @@ function JuMP.add_variable(
     JuMP.@constraint(model, w <= variable, base_name="m($(name))")
     JuMP.@constraint(model, w <= 1 - variable, base_name="1-m($(name))")
 
-    f = JuMP.@expression(model, -4*variable^2 + 4*variable - 1)
+    d = JuMP.@expression(model, -4*variable^2 + 4*variable - 1)
 
-    if haskey(model.ext, :objective)
-        push!(model.ext[:objective], f)
+    if !haskey(model.ext, :objective)
+        model.ext[:objective] = Dict{Symbol,Vector}()
+    end
+
+    if haskey(model.ext[:objective], :d)
+        push!(model.ext[:objective][:d], d)
     else
-        model.ext[:objective] = Vector([f])
+        model.ext[:objective][:d] = Vector{Any}([d])
     end
 
     return variable
