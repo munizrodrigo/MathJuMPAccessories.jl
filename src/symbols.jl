@@ -13,6 +13,13 @@
 ⋅(x, y) = x * y
 \(x::Set, y::Set) = setdiff(x, y)
 \(x::OrderedSet, y::OrderedSet) = setdiff(x, y)
+\(x::AbstractSet, y::AbstractSet) = setdiff(x, y)
+Ω(x::Vararg{Set}) = Set(zip(x...))
+Ω(x::Vararg{OrderedSet}) = OrderedSet(zip(x...))
+Ω(x::Vararg{AbstractSet}) = Set(zip(x...))
+Ω(x::Set{Tuple{Int64, Int64}}, y::Set{OrderedSet}) = Set(zip(first.(x), last.(x), y...))
+Ω(x::OrderedSet{Tuple{Int64, Int64}}, y::Vararg{OrderedSet}) = OrderedSet(zip(first.(x), last.(x), y...))
+Ω(x::OrderedSet{Tuple{Int64, Int64}}, y::Vararg{AbstractSet}) = OrderedSet(zip(first.(x), last.(x), y...))
 
 macro forall(iter::Expr, block::Expr)
     iter = string(iter)
