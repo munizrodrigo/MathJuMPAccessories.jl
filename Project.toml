@@ -1,7 +1,7 @@
 name = "MathJuMPAccessories"
 uuid = "f469ccb0-c07c-42c4-84e9-4124f3b4a9c2"
 authors = ["João Rodrigo da Silva Muniz"]
-version = "1.0.3-DEV"
+version = "1.0.4-DEV"
 
 [deps]
 JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
