@@ -20,6 +20,10 @@
 Ω(x::Set{Tuple{Int64, Int64}}, y::Vararg{Set}) = Set(map(s -> (s[1][1], s[1][2], s[2:end]...), collect(Iterators.product(x,y...))))
 Ω(x::OrderedSet{Tuple{Int64, Int64}}, y::Vararg{OrderedSet}) = OrderedSet(map(s -> (s[1][1], s[1][2], s[2:end]...), collect(Iterators.product(x,y...))))
 Ω(x::OrderedSet{Tuple{Int64, Int64}}, y::Vararg{AbstractSet}) = OrderedSet(map(s -> (s[1][1], s[1][2], s[2:end]...), collect(Iterators.product(x,y...))))
+⪽(x::OrderedSet, y::AbstractRange) = OrderedSet(collect(x)[y])
+⪽(x::OrderedSet, y::AbstractVector) = OrderedSet(collect(x)[y])
+⪽(x::AbstractVector, y::AbstractRange) = OrderedSet(x[y])
+⪽(x::AbstractVector, y::AbstractVector) = OrderedSet(x[y])
 
 macro forall(iter::Expr, block::Expr)
     iter = string(iter)
